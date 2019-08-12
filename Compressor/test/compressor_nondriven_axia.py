@@ -27,9 +27,9 @@ def chlorinecompressor_compressor_nondriven_end_axial_diagnosis(xdata: ndarray,
            mp_instance.harmonic_number, \
            mp_instance.sub_har_num, \
            mp_instance.x.ow_amp, \
+           np.hstack((0, mp_instance.x_vel.harmonics_index)),\
            mp_instance.x.ow_index, \
-           mp_instance.x_vel.sub_harmonics_index, \
-           np.hstack((0, mp_instance.x_vel.harmonics_index))
+           mp_instance.x_vel.sub_harmonics_index
 
 
 if __name__ == '__main__':

@@ -37,7 +37,7 @@ def chlorinecompressor_compressor_nondriven_end_horizontal_diagnosis(xdata: ndar
            mp_instance.x.ow_amp, \
            mp_instance.pres_std, \
            mp_instance.sub_har_num, \
-           np.hstack((0, mp_instance.x_vel.harmonics_index)), \
+           np.hstack((mp_instance.x_vel.sub_harmonics_index[0], mp_instance.x_vel.harmonics_index)), \
            mp_instance.x.ow_index, \
            mp_instance.x_vel.sub_harmonics_index, \
            mp_instance.sg_index

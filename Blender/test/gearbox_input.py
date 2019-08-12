@@ -32,7 +32,8 @@ def chlorinecompressor_gearbox_inputshaft(xdata: ndarray, teeth_num: ndarray,
            mp_instance.ma_indicator, \
            np.hstack((mp_instance.x_vel.half_fr_indexes, mp_instance.x_vel.harmonics_index)), \
            np.reshape(mp_instance.x_env.bearing_index, (3, 4)), \
-           mp_instance.x.sideband_indexes, mp_instance.sideband_energies
+           mp_instance.x.sideband_indexes, \
+           mp_instance.sideband_energies
 
 
 if __name__ == '__main__':
