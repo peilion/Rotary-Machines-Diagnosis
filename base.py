@@ -278,5 +278,11 @@ class MeasurePoint:
     def diagnosis(self):
         pass
 
+
     def compute_fault_num(self):
-        pass
+        self.fault_num = []
+
+        for item in type(self).__bases__:
+            if item.__module__ == 'mixin':
+                 self.fault_num +=  self.fault_num_mapper[getattr(self,item.fault_num_name)]
+        self.fault_num = np.array(self.fault_num)

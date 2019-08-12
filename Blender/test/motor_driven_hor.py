@@ -62,3 +62,5 @@ if __name__ == '__main__':
                                                           ma_threshold=np.array([[0.9, 4.5, 11.2],[0.9, 4.5, 11.2]]),
                                                           thd_threshold=1,
                                                           cur = 400)
+
+        assert (res[0][index * 3] == 1) & (res[0].sum() == 1)

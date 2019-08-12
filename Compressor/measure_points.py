@@ -5,8 +5,9 @@ from base import MeasurePoint, VibrationSignal
 import numpy as np
 
 
-class CP_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, ALooseMixin, BLooseMixin,
-                               RollBearingMixin):
+class CP_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, RollBearingMixin, ALooseMixin,
+                               BLooseMixin):
+    # Mixin的继承顺序必须与故障代码的顺序完全一致
     equip = Compressor
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, ma_threshold, al_threshold, bl_threshold,
@@ -24,13 +25,6 @@ class CP_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, 
         self.bw_threshold = bw_threshold
         self.bearing_ratio = bearing_ratio
         self.kurtosis_threshold = kurtosis_threshold
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ma_level, self.bw_level, self.al_level, self.bl_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
@@ -78,13 +72,6 @@ class CP_Motor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, MisalignmentMixin
         self.kurtosis_threshold = kurtosis_threshold
         self.ma_threshold = ma_threshold
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ma_level, self.bw_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
                                                                               co_frequency=2 * 10 * self.fr / self.x.sampling_rate)
@@ -109,7 +96,7 @@ class CP_Motor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, MisalignmentMixin
         self.compute_fault_num()
 
 
-class CP_Motor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, ALooseMixin, BLooseMixin, RollBearingMixin):
+class CP_Motor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, RollBearingMixin, ALooseMixin, BLooseMixin):
     equip = Compressor
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, al_threshold, bl_threshold,
@@ -126,13 +113,6 @@ class CP_Motor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, ALooseMixin, BLo
         self.bw_threshold = bw_threshold
         self.bearing_ratio = bearing_ratio
         self.kurtosis_threshold = kurtosis_threshold
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.bw_level, self.al_level, self.bl_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
@@ -177,13 +157,6 @@ class CP_Motor_NonDriven_Horizontal(MeasurePoint, UnbalanceMixin, RollBearingMix
         self.bearing_ratio = bearing_ratio
         self.kurtosis_threshold = kurtosis_threshold
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.bw_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
                                                                               co_frequency=2 * 10 * self.fr / self.x.sampling_rate)
@@ -213,7 +186,7 @@ class CP_Motor_NonDriven_Horizontal(MeasurePoint, UnbalanceMixin, RollBearingMix
         self.compute_fault_num()
 
 
-class CP_Gearbox_Input_Vertical(MeasurePoint, MisalignmentMixin, ALooseMixin, BLooseMixin, OilWhirlMixin, GearMixin):
+class CP_Gearbox_Input_Vertical(MeasurePoint, MisalignmentMixin, OilWhirlMixin, GearMixin, ALooseMixin, BLooseMixin):
     equip = Compressor
     require_phase_diff = False
 
@@ -230,13 +203,6 @@ class CP_Gearbox_Input_Vertical(MeasurePoint, MisalignmentMixin, ALooseMixin, BL
         self.gf_threshold = gf_threshold
         self.kurtosis_threshold = kurtosis_threshold
         self.equip.teeth_num = teeth_num
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ma_level, self.ow_level, self.gf_level, self.al_level, self.bl_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
@@ -276,13 +242,6 @@ class CP_Gearbox_Input_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixin
         self.kurtosis_threshold = kurtosis_threshold
         self.equip.teeth_num = teeth_num
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ma_level, self.ow_level, self.gf_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
                                                                               co_frequency=2 * 10 * self.fr / self.x.sampling_rate)
@@ -317,13 +276,6 @@ class CP_Gearbox_Inner_Ring(MeasurePoint, GearMixin):
         self.kurtosis_threshold = kurtosis_threshold
         self.equip.teeth_num = teeth_num
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.gf_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency=1000 / self.x.sampling_rate)
 
@@ -335,7 +287,7 @@ class CP_Gearbox_Inner_Ring(MeasurePoint, GearMixin):
         self.compute_fault_num()
 
 
-class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin, ALooseMixin, BLooseMixin, OilWhirlMixin, GearMixin):
+class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin,OilWhirlMixin, GearMixin, ALooseMixin, BLooseMixin ):
     equip = Compressor
     require_phase_diff = False
 
@@ -353,17 +305,10 @@ class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin, ALooseMixin, B
         self.kurtosis_threshold = kurtosis_threshold
         self.equip.teeth_num = teeth_num
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ma_level, self.ow_level, self.gf_level, self.al_level, self.bl_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x.compute_spectrum()
 
-        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency=2*11 * self.fr / self.x.sampling_rate)
+        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_lp.compute_spectrum()
         self.x_lp.compute_harmonics(fr=self.fr, upper=11)
@@ -375,7 +320,8 @@ class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin, ALooseMixin, B
         self.oil_whirl_diagnosis(diag_obj=self.x_lp)
         self.btype_loose_diagnosis(blade_num=0, diag_obj=self.x_lp)
 
-        self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency=2*11 * self.fr / self.x.sampling_rate)
+        self.x_hp = self.x.to_filted_signal(filter_type='highpass',
+                                            co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
         self.x_hp.compute_spectrum()
         self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[2])  # 使用输入轴转速计算啮合频率
 
@@ -399,17 +345,10 @@ class CP_Gearbox_Output_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixi
         self.kurtosis_threshold = kurtosis_threshold
         self.equip.teeth_num = teeth_num
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ma_level, self.ow_level, self.gf_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x.compute_spectrum()
 
-        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency= 2* 11 * self.fr / self.x.sampling_rate)
+        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_lp.compute_spectrum()
         self.x_lp.compute_harmonics(fr=self.fr, upper=11)
@@ -419,7 +358,8 @@ class CP_Gearbox_Output_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixi
         self.misalignment_diagnosis(blade_num=0, diag_obj=self.x_lp)
         self.oil_whirl_diagnosis(diag_obj=self.x_lp)
 
-        self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency= 2 * 11 * self.fr / self.x.sampling_rate)
+        self.x_hp = self.x.to_filted_signal(filter_type='highpass',
+                                            co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_hp.compute_spectrum()
         self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[2])
@@ -429,8 +369,8 @@ class CP_Gearbox_Output_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixi
         self.compute_fault_num()
 
 
-class CP_Compressor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, OilWhirlMixin, ALooseMixin,
-                                    BLooseMixin, RubbingMixin, SurgeMixin):
+class CP_Compressor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, OilWhirlMixin, RubbingMixin,ALooseMixin,
+                                    BLooseMixin,SurgeMixin):
     equip = Compressor
     require_phase_diff = True
 
@@ -454,14 +394,6 @@ class CP_Compressor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMi
         self.harmonic_threshold = harmonic_threshold
         self.subharmonic_threshold = subharmonic_threshold
         self.sg_threshold = sg_threshold
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ma_level, self.ow_level, self.rb_level, self.al_level, self.bl_level,
-                     self.sg_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
@@ -511,13 +443,6 @@ class CP_Compressor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, Misalignment
         self.subharmonic_threshold = subharmonic_threshold
         self.sg_threshold = sg_threshold
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ma_level, self.ow_level, self.rb_level, self.sg_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
                                                                               co_frequency=2 * 10 * self.fr / self.x.sampling_rate)
@@ -540,8 +465,8 @@ class CP_Compressor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, Misalignment
         self.compute_fault_num()
 
 
-class CP_Compressor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, OilWhirlMixin, ALooseMixin,
-                                       BLooseMixin, RubbingMixin, SurgeMixin):
+class CP_Compressor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, OilWhirlMixin, RubbingMixin,ALooseMixin,
+                                       BLooseMixin,  SurgeMixin):
     equip = Compressor
     require_phase_diff = True
 
@@ -564,14 +489,6 @@ class CP_Compressor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, OilWhirlMix
         self.harmonic_threshold = harmonic_threshold
         self.subharmonic_threshold = subharmonic_threshold
         self.sg_threshold = sg_threshold
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ow_level, self.rb_level, self.al_level, self.bl_level,
-                     self.sg_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
@@ -620,13 +537,6 @@ class CP_Compressor_NonDriven_Horizontal(MeasurePoint, UnbalanceMixin, OilWhirlM
         self.subharmonic_threshold = subharmonic_threshold
         self.sg_threshold = sg_threshold
 
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ib_level, self.ow_level, self.rb_level, self.sg_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
-
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',
                                                                               co_frequency=2 * 10 * self.fr / self.x.sampling_rate)
@@ -662,13 +572,6 @@ class CP_Compressor_NonDriven_Axial(MeasurePoint, OilWhirlMixin, RubbingMixin):
         self.rb_threshold = rb_threshold
         self.harmonic_threshold = harmonic_threshold
         self.subharmonic_threshold = subharmonic_threshold
-
-    def compute_fault_num(self):
-        self.fault_num = []
-        for item in [self.ow_level, self.rb_level]:
-            assert item in [0, 1, 2, 3], '故障严重等级计算错误'
-            self.fault_num += self.fault_num_mapper[item]
-        self.fault_num = np.array(self.fault_num)
 
     def diagnosis(self):
         self.x_vel = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass',

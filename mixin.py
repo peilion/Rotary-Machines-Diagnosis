@@ -7,6 +7,7 @@ class UnbalanceMixin:
     ib_threshold = None
     pd_threshold = None
     thd_threshold = None
+    fault_num_name = 'ib_level'
 
     def unbalance_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
 
@@ -28,6 +29,7 @@ class UnbalanceMixin:
 
 class MisalignmentMixin:
     ma_threshold = None
+    fault_num_name = 'ma_level'
 
     def misalignment_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
         self.ma_indicator = 0.5 * diag_obj.harmonics[0] + \
@@ -41,6 +43,7 @@ class MisalignmentMixin:
 class ALooseMixin:
     al_threshold = None
     pd_threshold = None
+    fault_num_name = 'al_level'
 
     def atype_loose_diagnosis(self, diag_obj: VibrationSignal):
 
@@ -57,6 +60,7 @@ class ALooseMixin:
 class BLooseMixin:
     harmonic_threshold = None
     bl_threshold = None
+    fault_num_name = 'bl_level'
 
     def btype_loose_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
         self.bl_indicator = diag_obj.half_fr_amp
@@ -73,6 +77,7 @@ class BLooseMixin:
 class RollBearingMixin:
     bw_threshold = None
     kurtosis_threshold = None
+    fault_num_name = 'bw_level'
 
     def roll_bearing_diagnosis(self, diag_obj: VibrationSignal):
         level_list = []
@@ -89,6 +94,7 @@ class GearMixin:
     gf_threshold = None
     sideband_order = 6
     kurtosis_threshold = None
+    fault_num_name = 'gf_level'
 
     def gear_diagnosis(self, diag_obj: VibrationSignal):
         self.sideband_energies = np.sum(diag_obj.sideband_amps, axis=1)
@@ -101,6 +107,7 @@ class GearMixin:
 
 class OilWhirlMixin:
     wd_threshold = None  # type: ndarray
+    fault_num_name = 'ow_level'
 
     def oil_whirl_diagnosis(self, diag_obj: VibrationSignal):
         self.ow_indicator = diag_obj.ow_amp
@@ -110,6 +117,7 @@ class OilWhirlMixin:
 class RubbingMixin:
     rb_threshold = None  # type:ndarray
     subharmonic_threshold = None  # type:ndarray
+    fault_num_name = 'rb_level'
 
     def rubbing_diagnosis(self, diag_obj: VibrationSignal, blade_num: int):
 
@@ -133,6 +141,7 @@ class RubbingMixin:
 class SurgeMixin:
     sg_threshold = None  # type: ndarray
     pres_threshold = None  # type: ndarray
+    fault_num_name = 'sg_level'
 
     def surge_diagnosis(self, pressure_vector, diag_obj: VibrationSignal):
         low_index1, low_energy1 = diag_obj.get_band_energy(fr=self.fr, band_range=(0, 0.4))
