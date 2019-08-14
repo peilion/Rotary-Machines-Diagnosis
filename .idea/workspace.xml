@@ -4,16 +4,49 @@
     <list default="true" id="8eb35236-8a91-4162-abd0-ba95c8f63591" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Blender/measure_points.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/measure_points.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender/test/blender_driven.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/blender_driven.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender/test/gearbox_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/gearbox_input.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender/test/gearbox_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/gearbox_output.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Blender/test/motor_driven_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/motor_driven_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender/test/motor_driven_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/motor_driven_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Blender/test/motor_nondriven.py" beforeDir="false" afterPath="$PROJECT_DIR$/Blender/test/motor_nondriven.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Compressor/measure_points.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/measure_points.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/compressor_driven_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/compressor_driven_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/compressor_driven_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/compressor_driven_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_axia.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_axia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/compressor_nondriven_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/gearbox_inner_ring.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/gearbox_inner_ring.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/gearbox_input_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/gearbox_input_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/gearbox_input_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/gearbox_input_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/gearbox_output_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/gearbox_output_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/gearbox_output_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/gearbox_output_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/motor_driven_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/motor_driven_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/motor_driven_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/motor_driven_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/motor_nondriven_hor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/motor_nondriven_hor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Compressor/test/motor_nondriven_ver.py" beforeDir="false" afterPath="$PROJECT_DIR$/Compressor/test/motor_nondriven_ver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mixin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mixin.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -34,6 +67,11 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\fpl11\Desktop\Rotary-Machines-Diagnosis" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -180,9 +218,21 @@
       <updated>1565268945675</updated>
       <workItem from="1565268949211" duration="18912000" />
       <workItem from="1565579234569" duration="2872000" />
-      <workItem from="1565592270554" duration="5428000" />
+      <workItem from="1565592270554" duration="9907000" />
+      <workItem from="1565661704827" duration="22751000" />
+      <workItem from="1565748504151" duration="11689000" />
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

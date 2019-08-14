@@ -7,6 +7,7 @@ from scipy import signal
 from scipy.integrate import cumtrapz
 from scipy.signal import detrend
 from scipy import stats
+import abc
 
 
 class VibrationSignal:
@@ -104,7 +105,7 @@ class VibrationSignal:
 
         self.thd = np.sqrt((self.harmonics[1:] ** 2).sum()) / self.harmonics[0]
 
-    def compute_sub_harmonic(self, fr: float, upper=10,tolerance = 0.5):
+    def compute_sub_harmonic(self, fr: float, upper=10, tolerance=0.5):
         assert self.spec is not None, '需先计算频谱'
         spec = self.spec
         freq = self.freq
@@ -185,6 +186,8 @@ class VibrationSignal:
         self.sideband_amps = []
         self.sideband_indexes = []
         for mesh_frequency in mesh_frequencies:
+            if mesh_frequency > self.sampling_rate / 2:
+                continue
             for i in range(-sideband_order, sideband_order + 1):
                 frequecy = mesh_frequency + i * fr
                 upper_search = np.rint((frequecy + tolerance) / df).astype(np.int)
@@ -222,7 +225,7 @@ class VibrationSignal:
     @staticmethod
     def poly_detrend(data):
         x = np.arange(len(data))
-        fit = np.polyval(np.polyfit(x, data, deg=3), x)
+        fit = np.polyval(np.polyfit(x, data, deg=10), x)
         data -= fit
         return data
 
@@ -242,7 +245,7 @@ class VibrationSignal:
                                                                                      self.sampling_rate)
 
 
-class MeasurePoint:
+class MeasurePoint(metaclass=abc.ABCMeta):
     fault_num_mapper = {
         0: [0, 0, 0],
         1: [1, 0, 0],
@@ -266,8 +269,8 @@ class MeasurePoint:
     @property
     def phase_diff(self):
         if self._phase_diff is None:
-            trimed_x = self.x.data[:self.x.sampling_rate]  # 只取前一秒的加速度数据进行互相关计算,考虑计算量以及积分后的相位移动
-            trimed_y = self.y.data[:self.y.sampling_rate]
+            trimed_x = self.x.data[:int(self.x.sampling_rate/2)]  # 只取前一秒的加速度数据进行互相关计算,考虑计算量以及积分后的相位移动
+            trimed_y = self.y.data[:int(self.x.sampling_rate/2)]
             t = np.linspace(0.0, ((len(trimed_x) - 1) / self.x.sampling_rate), len(trimed_x))
             cross_correlate = np.correlate(trimed_x, trimed_y, "full")
             dt = np.linspace(-t[-1], t[-1], (2 * len(trimed_x)) - 1)
@@ -275,14 +278,14 @@ class MeasurePoint:
             self._phase_diff = ((2.0 * np.pi) * ((time_shift / (1.0 / self.fr)) % 1.0)) - np.pi
         return self._phase_diff
 
+    @abc.abstractmethod
     def diagnosis(self):
         pass
-
 
     def compute_fault_num(self):
         self.fault_num = []
 
         for item in type(self).__bases__:
-            if item.__module__ == 'mixin':
-                 self.fault_num +=  self.fault_num_mapper[getattr(self,item.fault_num_name)]
+            if str(item).__contains__('Mixin'):
+                self.fault_num += self.fault_num_mapper[getattr(self, item.fault_num_name)]
         self.fault_num = np.array(self.fault_num)

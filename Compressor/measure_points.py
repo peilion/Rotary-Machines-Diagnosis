@@ -44,10 +44,10 @@ class CP_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, 
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -85,10 +85,10 @@ class CP_Motor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, MisalignmentMixin
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -131,10 +131,10 @@ class CP_Motor_NonDriven_Vertical(MeasurePoint, UnbalanceMixin, RollBearingMixin
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -166,19 +166,19 @@ class CP_Motor_NonDriven_Horizontal(MeasurePoint, UnbalanceMixin, RollBearingMix
         self.unbalance_diagnosis(blade_num=self.equip.motor_blade, diag_obj=self.x_vel)
 
         self.x.compute_spectrum()
-        self.x.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                         bpfo=self.bearing_ratio[1],
-                                         bsf=self.bearing_ratio[2],
-                                         ftf=self.bearing_ratio[3],
-                                         fr=self.fr,
-                                         upper=1)
+        self.x.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
+                                             fr=self.fr,
+                                             upper=3)
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -220,7 +220,7 @@ class CP_Gearbox_Input_Vertical(MeasurePoint, MisalignmentMixin, OilWhirlMixin, 
         self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency=1000 / self.x.sampling_rate)
 
         self.x_hp.compute_spectrum()
-        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[2])
+        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[0])
 
         self.gear_diagnosis(diag_obj=self.x_hp)
 
@@ -256,7 +256,7 @@ class CP_Gearbox_Input_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixin
         self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency=1000 / self.x.sampling_rate)
 
         self.x_hp.compute_spectrum()
-        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[2])
+        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[0])
 
         self.gear_diagnosis(diag_obj=self.x_hp)
 
@@ -280,7 +280,7 @@ class CP_Gearbox_Inner_Ring(MeasurePoint, GearMixin):
         self.x_hp = self.x.to_filted_signal(filter_type='highpass', co_frequency=1000 / self.x.sampling_rate)
 
         self.x_hp.compute_spectrum()
-        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[2])
+        self.x_hp.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[0])
 
         self.gear_diagnosis(diag_obj=self.x_hp)
 
@@ -308,7 +308,7 @@ class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin,OilWhirlMixin, 
     def diagnosis(self):
         self.x.compute_spectrum()
 
-        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
+        self.x_lp = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_lp.compute_spectrum()
         self.x_lp.compute_harmonics(fr=self.fr, upper=11)
@@ -323,7 +323,7 @@ class CP_Gearbox_Output_Vertical(MeasurePoint, MisalignmentMixin,OilWhirlMixin, 
         self.x_hp = self.x.to_filted_signal(filter_type='highpass',
                                             co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
         self.x_hp.compute_spectrum()
-        self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[2])  # 使用输入轴转速计算啮合频率
+        self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[0])  # 使用输入轴转速计算啮合频率
 
         self.gear_diagnosis(diag_obj=self.x_hp)
 
@@ -348,7 +348,7 @@ class CP_Gearbox_Output_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixi
     def diagnosis(self):
         self.x.compute_spectrum()
 
-        self.x_lp = self.x.to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
+        self.x_lp = self.x.to_velocity(detrend_type='poly').to_filted_signal(filter_type='lowpass', co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_lp.compute_spectrum()
         self.x_lp.compute_harmonics(fr=self.fr, upper=11)
@@ -362,7 +362,7 @@ class CP_Gearbox_Output_Horizontal(MeasurePoint, MisalignmentMixin, OilWhirlMixi
                                             co_frequency=2 * 11 * self.fr / self.x.sampling_rate)
 
         self.x_hp.compute_spectrum()
-        self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[2])
+        self.x_hp.compute_mesh_frequency(fr=self.fr / 6.964, mesh_ratio=self.equip.teeth_num[0])
 
         self.gear_diagnosis(diag_obj=self.x_hp)
 

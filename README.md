@@ -34,3 +34,31 @@ pip install -r requirements.txt
 #根目录下
 python ./compressor/test/motor_driven_ver.py
 ```
+
+
+# Test Sample
+```
+Chlorine.csv
+    Col1 motor_drive_x	
+    Col2 motor_drive_y	
+    Col3 motor_nondrive_x
+    Col4 motor_nondrive_y
+    Col5 gearbox_in_bearing_x
+    Col6 gearbox_in_bearing_y
+    Col7 gearbox_iss
+    Col8 gearbox_out_bearing_x
+    Col9 gearbox_out_bearing_y
+    Col10 Chlorine_compressor_drive_x
+    Col11 Chlorine_compressor_drive_y
+    Col12 Chlorine_compressor_nondrive_x
+    Col13 Chlorine_compressor_nondrive_y
+    Col14 Chlorine_compressor_nondrive_z
+
+Prepolymerizer.csv
+    Col1 motor_drive_x
+    Col2 motor_drive_y
+    Col3 motor_nondrive_x
+    Col4 down_gearbox_in
+    Col5 down_gearbox_out
+    Col6 seal_bearing
+```

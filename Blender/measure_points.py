@@ -2,7 +2,7 @@ from Blender.equipment import Blender
 from mixin import UnbalanceMixin, MisalignmentMixin, ALooseMixin, BLooseMixin, RollBearingMixin, \
     OilWhirlMixin, GearMixin, RubbingMixin, SurgeMixin
 from base import MeasurePoint, VibrationSignal
-import numpy as np
+from numpy import ndarray
 
 
 class BD_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, RollBearingMixin, ALooseMixin,
@@ -12,18 +12,15 @@ class BD_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, 
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, ma_threshold, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
-
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal,
+                 r: float):
         super().__init__(x, y, r)
-        self.ib_threshold = ib_threshold[self.operation_mode]
-        self.ma_threshold = ma_threshold[self.operation_mode]
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
+        self.ib_threshold = ib_threshold
+        self.ma_threshold = ma_threshold
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
 
         self.pd_threshold = pd_threshold
         self.thd_threshold = thd_threshold
@@ -59,23 +56,20 @@ class BD_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, 
 
 
 class BD_Motor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, MisalignmentMixin, RollBearingMixin, ALooseMixin,
-                               BLooseMixin):
+                                 BLooseMixin):
     equip = Blender
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, ma_threshold, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
-
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal,
+                 r: float):
         super().__init__(x, y, r)
-        self.ib_threshold = ib_threshold[self.operation_mode]
-        self.ma_threshold = ma_threshold[self.operation_mode]
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
+        self.ib_threshold = ib_threshold
+        self.ma_threshold = ma_threshold
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
 
         self.pd_threshold = pd_threshold
         self.thd_threshold = thd_threshold
@@ -116,17 +110,14 @@ class BD_Motor_NonDriven(MeasurePoint, UnbalanceMixin, RollBearingMixin, ALooseM
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
-
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal,
+                 r: float):
         super().__init__(x, y, r)
-        self.ib_threshold = ib_threshold[self.operation_mode]
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
+        self.ib_threshold = ib_threshold
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
 
         self.pd_threshold = pd_threshold
         self.thd_threshold = thd_threshold
@@ -166,18 +157,15 @@ class BD_Gearbox_Input(MeasurePoint, MisalignmentMixin, RollBearingMixin, GearMi
 
     def __init__(self, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold, teeth_num, gf_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float, ma_threshold,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
-
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, ma_threshold,
+                 r: float):
         super().__init__(x, y, r)
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
-        self.gf_threshold = gf_threshold[self.operation_mode]
-        self.ma_threshold = ma_threshold[self.operation_mode]
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
+        self.gf_threshold = gf_threshold
+        self.ma_threshold = ma_threshold
 
         self.bearing_ratio = bearing_ratio
         self.kurtosis_threshold = kurtosis_threshold
@@ -213,24 +201,22 @@ class BD_Gearbox_Input(MeasurePoint, MisalignmentMixin, RollBearingMixin, GearMi
 
 
 class BD_Gearbox_Output(MeasurePoint, MisalignmentMixin, RollBearingMixin, GearMixin, ALooseMixin, BLooseMixin):
-
     equip = Blender
     require_phase_diff = False
 
     def __init__(self, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold, teeth_num, gf_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float, ma_threshold,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, ma_threshold,
+                 r: float):
+        r = r / teeth_num[2]
 
         super().__init__(x, y, r)
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
-        self.gf_threshold = gf_threshold[self.operation_mode]
-        self.ma_threshold = ma_threshold[self.operation_mode]
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
+        self.gf_threshold = gf_threshold
+        self.ma_threshold = ma_threshold
 
         self.bearing_ratio = bearing_ratio
         self.kurtosis_threshold = kurtosis_threshold
@@ -274,19 +260,18 @@ class BD_Blender_Driven(MeasurePoint, UnbalanceMixin, RollBearingMixin, RubbingM
 
     def __init__(self, ib_threshold, pd_threshold, thd_threshold, al_threshold, bl_threshold,
                  bearing_ratio, kurtosis_threshold, rb_threshold, subharmonic_threshold,
-                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal, cur: float,
-                 r: dict):
-        self.operation_mode = 0 if (cur < 300) else 1
-        r = r[self.operation_mode]
+                 harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal,
+                 r: float, teeth_num: ndarray):
+        r = r * teeth_num[2]
 
         super().__init__(x, y, r)
-        self.ib_threshold = ib_threshold[self.operation_mode]
-        self.al_threshold = al_threshold[self.operation_mode]
-        self.bl_threshold = bl_threshold[self.operation_mode]
-        self.harmonic_threshold = harmonic_threshold[self.operation_mode]
-        self.bw_threshold = bw_threshold[self.operation_mode]
-        self.rb_threshold = rb_threshold[self.operation_mode]
-        self.subharmonic_threshold = subharmonic_threshold[self.operation_mode]
+        self.ib_threshold = ib_threshold
+        self.al_threshold = al_threshold
+        self.bl_threshold = bl_threshold
+        self.harmonic_threshold = harmonic_threshold
+        self.bw_threshold = bw_threshold
+        self.rb_threshold = rb_threshold
+        self.subharmonic_threshold = subharmonic_threshold
 
         self.pd_threshold = pd_threshold
         self.thd_threshold = thd_threshold
