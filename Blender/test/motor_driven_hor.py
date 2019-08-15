@@ -3,8 +3,6 @@ from numpy import ndarray
 import numpy as np
 from base import VibrationSignal
 from Blender.measure_points import BD_Motor_Driven_Horizontal
-import scipy.io as sio
-from simulators import *
 
 
 def blender_motor_driven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray,
@@ -21,7 +19,7 @@ def blender_motor_driven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray
                                              al_threshold=th[9:12],
                                              bl_threshold=th[12:15],
                                              thd_threshold=th[15],
-                                             pd_threshold=th[16],
+                                             pd_threshold=th[16] / 180 * np.pi,
                                              kurtosis_threshold=th[17],
                                              harmonic_threshold=th[18:28])
     mp_instance.diagnosis()
@@ -38,7 +36,7 @@ def blender_motor_driven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray
            mp_instance.x.kurtosis, \
            mp_instance.harmonic_number, \
            np.hstack((mp_instance.x_vel.half_fr_indexes, mp_instance.x_vel.harmonics_index)), \
-           np.reshape(mp_instance.x_env.bearing_index, (3, 4)), \
+           np.transpose(np.reshape(mp_instance.x_env.bearing_index,(4,3)))  , \
            {'unbalance': mp_instance.ib_threshold,
             'misalignment': mp_instance.ma_threshold,
             'bearing': mp_instance.bw_threshold,
@@ -54,14 +52,14 @@ if __name__ == '__main__':
                                                         ydata=1000 * data[:, 0],
                                                         fs=25600, cur=200,
                                                         R=1486,
-                                                        bearing_ratio=np.array([0.42, 2.99, 4.19, 5.81]),
+                                                        bearing_ratio=np.array([0.41, 5.497, 5.354, 7.646]),
                                                         th1=np.array([
                                                             10, 20, 30,
                                                             10, 20, 30,
                                                             4, 6, 10,
                                                             10, 20, 30,
                                                             10, 20, 30,
-                                                            1, 10 / 180 * np.pi, 6.0,
+                                                            1, 10 , 6.0,
                                                             10, 10, 10, 10, 10, 10, 10, 10, 10, 10
                                                         ]),
                                                         th2=np.array([
@@ -70,7 +68,21 @@ if __name__ == '__main__':
                                                             4, 6, 10,
                                                             10, 20, 30,
                                                             10, 20, 30,
-                                                            1, 10 / 180 * np.pi, 6.0,
+                                                            1, 10, 6.0,
                                                             10, 10, 10, 10, 10, 10, 10, 10, 10, 10
                                                         ]),
                                                         )
+
+    import matplotlib.pyplot as plt
+
+    plt.plot(res[1][0,:], res[1][1,:],)
+    plt.xlim(0, 250)
+    plt.xlabel('Frequency Hz')
+    plt.ylabel('Amplitude mm/s')
+    # plt.axvline(x=res[1][0,:][res[12][2]], color='#000000', linewidth=0.3)
+    for item in res[12].flatten():
+        plt.axvline(x=res[3][0,:][item], color='#000000', linewidth=0.3)
+    plt.show()
+
+    np.savetxt('tmp_value.csv', res[13] * 0.05, delimiter=',')
+    np.savetxt('tmp_index.csv', np.transpose(np.reshape(res[5],(4,3))) , delimiter=',')

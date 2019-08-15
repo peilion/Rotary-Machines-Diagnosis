@@ -2,8 +2,7 @@
 from numpy import ndarray
 from base import VibrationSignal
 from Compressor.measure_points import CP_Gearbox_Inner_Ring
-from simulators import *
-
+import numpy as np
 
 def chlorinecompressor_gearbox_inner_ring(xdata: ndarray, teeth_num: ndarray,
                                           fs: int, R: ndarray, th: ndarray):
@@ -32,3 +31,16 @@ if __name__ == '__main__':
                                                     6.0,
                                                 ])
                                                 )
+
+    # import matplotlib.pyplot as plt
+    #
+    # plt.plot(res[1][0,:], res[1][1,:],)
+    # # plt.xlim(0, 250)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s2')
+    # # plt.axvline(x=res[1][0,:][res[9]], color='#000000', linewidth=0.3)
+    # for item in res[4].flatten():
+    #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # plt.show()
+    #
+    # np.savetxt('tmp.csv', res[4]*0.05,delimiter=',')

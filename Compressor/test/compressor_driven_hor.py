@@ -2,8 +2,7 @@
 from numpy import ndarray
 from base import VibrationSignal
 from Compressor.measure_points import CP_Compressor_Driven_Horizontal
-from simulators import *
-
+import numpy as np
 
 def chlorinecompressor_compressor_driven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray, pressure: ndarray,
                                                                   fs: int, R: ndarray, th: ndarray):
@@ -17,7 +16,7 @@ def chlorinecompressor_compressor_driven_end_horizontal_diagnosis(xdata: ndarray
                                                   pres_threshold=th[12:15],
                                                   rb_threshold=th[15:18],
                                                   thd_threshold=th[18],
-                                                  pd_threshold=th[19],
+                                                  pd_threshold=th[19] / 180 * np.pi ,
                                                   harmonic_threshold=th[20:30],
                                                   subharmonic_threshold=th[30:35],
                                                   )
@@ -63,8 +62,22 @@ if __name__ == '__main__':
                                                                             10, 20, 30,
                                                                             10, 20, 30,
                                                                             10, 20, 30,
-                                                                            1, 10 / 180 * np.pi,
+                                                                            1, 10 ,
                                                                             10, 10, 10, 10, 10,
                                                                             10, 10, 10, 10, 10,
                                                                             10, 10, 10, 10, 10,
                                                                         ]))
+    # import matplotlib.pyplot as plt
+    #
+    # plt.plot(res[2][0,:], res[2][1,:],)
+    # plt.xlim(0, 2000)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s2')
+    # # plt.axvline(x=res[1][0,:][res[15]], color='#000000', linewidth=0.3)
+    # for item in res[17].flatten():
+    #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # # for item in res[16].flatten():
+    # #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # plt.show()
+    #
+    # np.savetxt('tmp.csv', res[11]*0.05,delimiter=',')

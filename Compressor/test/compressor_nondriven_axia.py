@@ -1,10 +1,8 @@
 # encoding: utf-8
 from numpy import ndarray
-import numpy as np
 from base import VibrationSignal
 from Compressor.measure_points import CP_Compressor_NonDriven_Axial
-import scipy.io as sio
-from simulators import *
+import numpy as np
 
 
 def chlorinecompressor_compressor_nondriven_end_axial_diagnosis(xdata: ndarray,
@@ -45,3 +43,15 @@ if __name__ == '__main__':
                                                                           10, 10, 10, 10, 10,
                                                                           10, 10, 10, 10, 10,
                                                                       ]))
+    # import matplotlib.pyplot as plt
+
+    # plt.plot(res[1][0,:], res[1][1,:],)
+    # plt.xlim(0, 2000)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s')
+    # # plt.axvline(x=res[1][0,:][res[9]], color='#000000', linewidth=0.3)
+    # for item in res[8].flatten():
+    #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # for item in res[10].flatten():
+    #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # plt.show()

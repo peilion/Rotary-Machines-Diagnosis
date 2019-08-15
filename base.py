@@ -152,7 +152,7 @@ class VibrationSignal:
 
         bearing_index = []
         bearing_amp = []
-        for component in [bpfi, bpfo, bsf, ftf]:
+        for component in [ftf, bsf, bpfo, bpfi]:
             for i in range(1, upper + 1):
                 upper_search = np.rint((component * fr * i + tolerance) / df).astype(np.int)
                 lower_search = np.rint((component * fr * i - tolerance) / df).astype(np.int)
@@ -186,16 +186,22 @@ class VibrationSignal:
         self.sideband_amps = []
         self.sideband_indexes = []
         for mesh_frequency in mesh_frequencies:
-            if mesh_frequency > self.sampling_rate / 2:
-                continue
+
             for i in range(-sideband_order, sideband_order + 1):
                 frequecy = mesh_frequency + i * fr
+
+                if frequecy > self.sampling_rate / 2:
+                    self.sideband_indexes.append(0)
+                    self.sideband_amps.append(0)
+                    continue
+
                 upper_search = np.rint((frequecy + tolerance) / df).astype(np.int)
                 lower_search = np.rint((frequecy - tolerance) / df).astype(np.int)
                 sideband_index = lower_search + np.argmax(spec[lower_search:upper_search])
                 sideband_amp = spec[sideband_index]
                 self.sideband_indexes.append(sideband_index)
                 self.sideband_amps.append(sideband_amp)
+
         self.sideband_amps = np.reshape(self.sideband_amps, (upper_order, sideband_order * 2 + 1))
         self.sideband_indexes = np.reshape(self.sideband_indexes, (upper_order, sideband_order * 2 + 1))
 
@@ -269,8 +275,8 @@ class MeasurePoint(metaclass=abc.ABCMeta):
     @property
     def phase_diff(self):
         if self._phase_diff is None:
-            trimed_x = self.x.data[:int(self.x.sampling_rate/2)]  # 只取前一秒的加速度数据进行互相关计算,考虑计算量以及积分后的相位移动
-            trimed_y = self.y.data[:int(self.x.sampling_rate/2)]
+            trimed_x = self.x.data[:int(self.x.sampling_rate / 2)]  # 只取前一秒的加速度数据进行互相关计算,考虑计算量以及积分后的相位移动
+            trimed_y = self.y.data[:int(self.x.sampling_rate / 2)]
             t = np.linspace(0.0, ((len(trimed_x) - 1) / self.x.sampling_rate), len(trimed_x))
             cross_correlate = np.correlate(trimed_x, trimed_y, "full")
             dt = np.linspace(-t[-1], t[-1], (2 * len(trimed_x)) - 1)

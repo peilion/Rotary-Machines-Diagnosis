@@ -3,7 +3,6 @@ from numpy import ndarray
 import numpy as np
 from base import VibrationSignal
 from Compressor.measure_points import CP_Gearbox_Input_Horizontal
-from simulators import *
 
 
 def chlorinecompressor_gearbox_inputshaft_horizontal(xdata: ndarray, teeth_num: ndarray,
@@ -46,3 +45,15 @@ if __name__ == '__main__':
                                                                6.0,
                                                            ])
                                                            )
+    # import matplotlib.pyplot as plt
+    #
+    # plt.plot(res[2][0,:], res[2][1,:],)
+    # # plt.xlim(0, 250)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s2')
+    # # plt.axvline(x=res[1][0,:][res[9]], color='#000000', linewidth=0.3)
+    # for item in res[10].flatten():
+    #     plt.axvline(x=res[1][0,:][item], color='#000000', linewidth=0.3)
+    # plt.show()
+    #
+    # np.savetxt('tmp.csv', res[10]*0.05,delimiter=',')

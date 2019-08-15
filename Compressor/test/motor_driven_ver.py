@@ -15,7 +15,8 @@ def chlorinecompressor_motor_driven_end_vertical_diagnosis(xdata: ndarray, ydata
                                            ib_threshold=th[:3], ma_threshold=th[3:6],
                                            bw_threshold=th[6:9], al_threshold=th[9:12],
                                            bl_threshold=th[12:15],
-                                           thd_threshold=th[15], pd_threshold=th[16], kurtosis_threshold=th[17],
+                                           thd_threshold=th[15], pd_threshold=th[16] / 180.0 * np.pi,
+                                           kurtosis_threshold=th[17],
                                            harmonic_threshold=th[18:28])
 
     mp_instance.diagnosis()
@@ -32,14 +33,13 @@ def chlorinecompressor_motor_driven_end_vertical_diagnosis(xdata: ndarray, ydata
            mp_instance.ma_indicator, \
            mp_instance.ib_indicator, \
            np.hstack((mp_instance.x_vel.half_fr_indexes, mp_instance.x_vel.harmonics_index)), \
-           np.reshape(mp_instance.x_env.bearing_index, (3, 4)), \
+           np.transpose(np.reshape(mp_instance.x_env.bearing_index,(4,3)))  , \
            {'unbalance': mp_instance.ib_threshold,
             'misalignment': mp_instance.ma_threshold,
             'bearing': mp_instance.bw_threshold,
             'atype_loosen': mp_instance.al_threshold,
             'btype_loosen': mp_instance.bl_threshold
             }
-    # 返回阈值字典
 
 
 if __name__ == '__main__':
@@ -53,12 +53,12 @@ if __name__ == '__main__':
                                                                  th=np.array([
                                                                      10, 20, 30,
                                                                      10, 20, 30,
-                                                                     4, 6, 10,
+                                                                     0.5, 1, 2,                                                                     10, 20, 30,
                                                                      10, 20, 30,
-                                                                     10, 20, 30,
-                                                                     1, 10 / 180 * np.pi, 6.0,
+                                                                     1, 10, 6.0,
                                                                      10, 10, 10, 10, 10, 10, 10, 10, 10, 10
-                                                                 ]))
+                                                                 ])
+                                                                 )
     # print(res.fault_num)
     #
     # import matplotlib.pyplot as plt

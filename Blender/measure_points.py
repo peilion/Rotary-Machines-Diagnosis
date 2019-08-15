@@ -44,10 +44,10 @@ class BD_Motor_Driven_Vertical(MeasurePoint, UnbalanceMixin, MisalignmentMixin, 
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -93,10 +93,10 @@ class BD_Motor_Driven_Horizontal(MeasurePoint, UnbalanceMixin, MisalignmentMixin
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -140,10 +140,10 @@ class BD_Motor_NonDriven(MeasurePoint, UnbalanceMixin, RollBearingMixin, ALooseM
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
 
@@ -185,10 +185,10 @@ class BD_Gearbox_Input(MeasurePoint, MisalignmentMixin, RollBearingMixin, GearMi
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3)
         self.roll_bearing_diagnosis(diag_obj=self.x_env)
@@ -235,17 +235,17 @@ class BD_Gearbox_Output(MeasurePoint, MisalignmentMixin, RollBearingMixin, GearM
         self.btype_loose_diagnosis(blade_num=0, diag_obj=self.x_vel)
 
         self.x.compute_spectrum()
-        self.x.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[1], tolerance=0.1)
+        self.x.compute_mesh_frequency(fr=self.fr, mesh_ratio=self.equip.teeth_num[0]*self.equip.teeth_num[2], tolerance=0.1)
 
         self.gear_diagnosis(diag_obj=self.x)
 
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3,
                                              tolerance=0.1)
@@ -262,7 +262,7 @@ class BD_Blender_Driven(MeasurePoint, UnbalanceMixin, RollBearingMixin, RubbingM
                  bearing_ratio, kurtosis_threshold, rb_threshold, subharmonic_threshold,
                  harmonic_threshold, bw_threshold, x: VibrationSignal, y: VibrationSignal,
                  r: float, teeth_num: ndarray):
-        r = r * teeth_num[2]
+        r = r / teeth_num[2]
 
         super().__init__(x, y, r)
         self.ib_threshold = ib_threshold
@@ -297,10 +297,10 @@ class BD_Blender_Driven(MeasurePoint, UnbalanceMixin, RollBearingMixin, RubbingM
         self.x_env = self.x.to_filted_signal(filter_type='highpass',
                                              co_frequency=2 * 1000 / self.x.sampling_rate).to_envelope()
         self.x_env.compute_spectrum()
-        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[0],
-                                             bpfo=self.bearing_ratio[1],
-                                             bsf=self.bearing_ratio[2],
-                                             ftf=self.bearing_ratio[3],
+        self.x_env.compute_bearing_frequency(bpfi=self.bearing_ratio[3],
+                                             bpfo=self.bearing_ratio[2],
+                                             bsf=self.bearing_ratio[1],
+                                             ftf=self.bearing_ratio[0],
                                              fr=self.fr,
                                              upper=3,
                                              tolerance=0.1)

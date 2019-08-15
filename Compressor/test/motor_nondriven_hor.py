@@ -3,8 +3,6 @@ from numpy import ndarray
 import numpy as np
 from base import VibrationSignal
 from Compressor.measure_points import CP_Motor_NonDriven_Horizontal
-import scipy.io as sio
-from simulators import unbalance, a_loose, b_loose, rolling_bearing
 
 
 def chlorinecompressor_motor_nondriven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray,
@@ -15,8 +13,9 @@ def chlorinecompressor_motor_nondriven_end_horizontal_diagnosis(xdata: ndarray, 
     mp_instance = CP_Motor_NonDriven_Horizontal(x=x, y=y, r=R[0], bearing_ratio=bearing_ratio,
                                                 ib_threshold=th[0:3],
                                                 bw_threshold=th[3:6],
-                                                thd_threshold=th[6], pd_threshold=th[7], kurtosis_threshold=th[8])
+                                                thd_threshold=th[6], pd_threshold=th[7]/ 180 * np.pi, kurtosis_threshold=th[8])
     mp_instance.diagnosis()
+
     return mp_instance.fault_num, \
            np.vstack((mp_instance.x_vel.freq, mp_instance.x_vel.spec)), \
            np.vstack((mp_instance.x.freq, mp_instance.x.spec)), \
@@ -28,7 +27,7 @@ def chlorinecompressor_motor_nondriven_end_horizontal_diagnosis(xdata: ndarray, 
            mp_instance.x.kurtosis, \
            mp_instance.ib_indicator, \
            np.hstack((0, mp_instance.x_vel.harmonics_index)), \
-           np.reshape(mp_instance.x_env.bearing_index, (3, 4)), \
+           np.transpose(np.reshape(mp_instance.x_env.bearing_index,(4,3)))  , \
            {'unbalance': mp_instance.ib_threshold,
             'bearing': mp_instance.bw_threshold,
             }
@@ -43,9 +42,19 @@ if __name__ == '__main__':
                                                                       ydata=1000 * data[:, 0],
                                                                       fs=25600,
                                                                       R=np.array([1491.0, 10384.0]),
-                                                                      bearing_ratio=np.array([0.42, 2.99, 4.19, 5.81]),
+                                                                      bearing_ratio=np.array([0.41, 2.75, 3.71, 5.29]),
                                                                       th=np.array([
                                                                           10, 20, 30,
                                                                           4, 6, 10,
-                                                                          1, 10 / 180 * np.pi, 6.0,
+                                                                          1, 10 , 6.0,
                                                                       ]))
+    # import matplotlib.pyplot as plt
+    #
+    # plt.plot(res[3][0,:], res[3][1,:],)
+    # plt.xlim(0, 500)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s2')
+    # # plt.axvline(x=res[1][0,:][res[10][2]], color='#000000', linewidth=0.3)
+    # for item in res[11].flatten():
+    #     plt.axvline(x=res[3][0,:][item], color='#000000', linewidth=0.3)
+    # plt.show()

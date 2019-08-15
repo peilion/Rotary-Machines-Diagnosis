@@ -2,7 +2,6 @@ from base import VibrationSignal
 import numpy as np
 from numpy import ndarray
 
-
 class UnbalanceMixin:
     ib_threshold = None
     pd_threshold = None
