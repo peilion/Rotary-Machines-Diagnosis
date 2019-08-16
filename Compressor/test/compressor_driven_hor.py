@@ -4,7 +4,7 @@ from base import VibrationSignal
 from Compressor.measure_points import CP_Compressor_Driven_Horizontal
 import numpy as np
 
-def chlorinecompressor_compressor_driven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray, pressure: ndarray,
+def chlorinecompressor_compressor_driven_end_horizontal(xdata: ndarray, ydata: ndarray, pressure: ndarray,
                                                                   fs: int, R: ndarray, th: ndarray):
     x = VibrationSignal(data=xdata, fs=fs, type=2)
     y = VibrationSignal(data=ydata, fs=fs, type=2)
@@ -50,7 +50,7 @@ def chlorinecompressor_compressor_driven_end_horizontal_diagnosis(xdata: ndarray
 if __name__ == '__main__':
     data = np.loadtxt('Chlorine.csv', delimiter=',', usecols=(10, 11))  # m/s2
 
-    res = chlorinecompressor_compressor_driven_end_horizontal_diagnosis(xdata=1000 * data[:, 1],  # mm/s2
+    res = chlorinecompressor_compressor_driven_end_horizontal(xdata=1000 * data[:, 1],  # mm/s2
                                                                         ydata=1000 * data[:, 0],
                                                                         fs=25600,
                                                                         R=np.array([1491.0, 10384.0]),

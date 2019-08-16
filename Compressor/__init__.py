@@ -1,0 +1,35 @@
+from .test.motor_driven_ver import chlorinecompressor_motor_driven_end_vertical_diagnosis
+from .test.motor_driven_hor import chlorinecompressor_motor_driven_end_horizontal_diagnosis
+from .test.motor_nondriven_ver import chlorinecompressor_motor_nondriven_end_vertical_diagnosis
+from .test.motor_nondriven_hor import chlorinecompressor_motor_nondriven_end_horizontal_diagnosis
+
+from .test.gearbox_input_ver import chlorinecompressor_gearbox_inputshaft_vertical
+from .test.gearbox_input_hor import chlorinecompressor_gearbox_inputshaft_horizontal
+from .test.gearbox_output_ver import chlorinecompressor_gearbox_outputshaft_vertical
+from .test.gearbox_output_hor import chlorinecompressor_gearbox_outputshaft_horizontal
+from .test.gearbox_inner_ring import chlorinecompressor_gearbox_innerring
+
+from .test.compressor_driven_hor import chlorinecompressor_compressor_driven_end_horizontal
+from .test.compressor_driven_ver import chlorinecompressor_compressor_driven_end_vertical_diagnosis
+from .test.compressor_nondriven_ver import chlorinecompressor_compressor_nondriven_end_vertical
+from .test.compressor_nondriven_hor import chlorinecompressor_compressor_nondriven_end_horizontal
+from .test.compressor_nondriven_axia import chlorinecompressor_compressor_nondriven_end_axial
+
+__all__ = [
+    'chlorinecompressor_motor_driven_end_vertical_diagnosis',
+    'chlorinecompressor_motor_driven_end_horizontal_diagnosis',
+    'chlorinecompressor_motor_nondriven_end_vertical_diagnosis',
+    'chlorinecompressor_motor_nondriven_end_horizontal_diagnosis',
+
+    'chlorinecompressor_gearbox_inputshaft_vertical',
+    'chlorinecompressor_gearbox_inputshaft_horizontal',
+    'chlorinecompressor_gearbox_outputshaft_vertical',
+    'chlorinecompressor_gearbox_outputshaft_horizontal',
+    'chlorinecompressor_gearbox_innerring',
+
+    'chlorinecompressor_compressor_driven_end_horizontal',
+    'chlorinecompressor_compressor_driven_end_vertical_diagnosis',
+    'chlorinecompressor_compressor_nondriven_end_vertical',
+    'chlorinecompressor_compressor_nondriven_end_horizontal',
+    'chlorinecompressor_compressor_nondriven_end_axial'
+]

@@ -5,8 +5,8 @@ from Compressor.measure_points import CP_Compressor_NonDriven_Axial
 import numpy as np
 
 
-def chlorinecompressor_compressor_nondriven_end_axial_diagnosis(xdata: ndarray,
-                                                                fs: int, R: ndarray, th: ndarray):
+def chlorinecompressor_compressor_nondriven_end_axial(xdata: ndarray,
+                                                      fs: int, R: ndarray, th: ndarray):
     x = VibrationSignal(data=xdata, fs=fs, type=2)
     mp_instance = CP_Compressor_NonDriven_Axial(x=x, y=x, r=R[1],
                                                 wd_threshold=th[0:3],
@@ -33,16 +33,16 @@ def chlorinecompressor_compressor_nondriven_end_axial_diagnosis(xdata: ndarray,
 if __name__ == '__main__':
     data = np.loadtxt('Chlorine.csv', delimiter=',', usecols=(14))  # m/s2
 
-    res = chlorinecompressor_compressor_nondriven_end_axial_diagnosis(xdata=1000 * data,  # mm/s2
-                                                                      fs=25600,
-                                                                      R=np.array([1491.0, 10384.0]),
-                                                                      th=np.array([
-                                                                          10, 20, 30,
-                                                                          10, 20, 30,
-                                                                          10, 10, 10, 10, 10,
-                                                                          10, 10, 10, 10, 10,
-                                                                          10, 10, 10, 10, 10,
-                                                                      ]))
+    res = chlorinecompressor_compressor_nondriven_end_axial(xdata=1000 * data,  # mm/s2
+                                                            fs=25600,
+                                                            R=np.array([1491.0, 10384.0]),
+                                                            th=np.array([
+                                                                10, 20, 30,
+                                                                10, 20, 30,
+                                                                10, 10, 10, 10, 10,
+                                                                10, 10, 10, 10, 10,
+                                                                10, 10, 10, 10, 10,
+                                                            ]))
     # import matplotlib.pyplot as plt
 
     # plt.plot(res[1][0,:], res[1][1,:],)

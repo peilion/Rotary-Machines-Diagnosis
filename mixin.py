@@ -2,6 +2,8 @@ from base import VibrationSignal
 import numpy as np
 from numpy import ndarray
 
+
+# 类名必须包含"Mixin"关键字
 class UnbalanceMixin:
     ib_threshold = None
     pd_threshold = None

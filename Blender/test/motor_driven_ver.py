@@ -2,12 +2,14 @@
 from numpy import ndarray
 from base import VibrationSignal
 from Blender.measure_points import BD_Motor_Driven_Vertical
+import numpy as np
 
-
-def blender_motor_driven_end_vertical_diagnosis(xdata: ndarray, ydata: ndarray,
-                                                fs: int, R: float, bearing_ratio: ndarray, cur: float, th1: ndarray,
-                                                th2: ndarray):
-    th = th1 if (cur > 150) else th2
+def prepolymerization_kettle_motor_driven_end_vertical(xdata: ndarray, ydata: ndarray,
+                                                       fs: int, R: float, bearing_ratio: ndarray, cur: ndarray,
+                                                       th1: ndarray,
+                                                       th2: ndarray):
+    cur_mean = cur.mean()
+    th = th1 if (cur_mean > 150) else th2
 
     x = VibrationSignal(data=xdata, fs=fs, type=2)
     y = VibrationSignal(data=ydata, fs=fs, type=2)
@@ -37,7 +39,7 @@ def blender_motor_driven_end_vertical_diagnosis(xdata: ndarray, ydata: ndarray,
            mp_instance.x.kurtosis, \
            mp_instance.harmonic_number, \
            np.hstack((mp_instance.x_vel.half_fr_indexes, mp_instance.x_vel.harmonics_index)), \
-           np.transpose(np.reshape(mp_instance.x_env.bearing_index,(4,3)))  , \
+           np.transpose(np.reshape(mp_instance.x_env.bearing_index, (4, 3))), \
            {'unbalance': mp_instance.ib_threshold,
             'misalignment': mp_instance.ma_threshold,
             'bearing': mp_instance.bw_threshold,
@@ -49,9 +51,9 @@ def blender_motor_driven_end_vertical_diagnosis(xdata: ndarray, ydata: ndarray,
 if __name__ == '__main__':
     data = np.loadtxt('Prepolymerizer.csv', delimiter=',', usecols=(1, 2))  # m/s2
 
-    res = blender_motor_driven_end_vertical_diagnosis(xdata=1000 * data[:, 0],  # mm/s2
+    res = prepolymerization_kettle_motor_driven_end_vertical(xdata=1000 * data[:, 0],  # mm/s2
                                                       ydata=1000 * data[:, 1],
-                                                      fs=25600, cur=200,
+                                                      fs=25600, cur=200*np.ones(10),
                                                       R=1486,
                                                       bearing_ratio=np.array([0.41, 5.497, 5.354, 7.646]),
                                                       th1=np.array([
@@ -74,16 +76,16 @@ if __name__ == '__main__':
                                                       ]),
                                                       )
 
-    import matplotlib.pyplot as plt
-
-    plt.plot(res[3][0,:], res[3][1,:],)
-    plt.xlim(0, 600)
-    plt.xlabel('Frequency Hz')
-    plt.ylabel('Amplitude mm/s2')
-    # plt.axvline(x=res[1][0,:][res[12][1]], color='#000000', linewidth=0.3)
-    for item in res[13].flatten():
-        plt.axvline(x=res[3][0,:][item], color='#000000', linewidth=0.3)
-    plt.show()
-
-    np.savetxt('tmp_value.csv', res[13] * 0.05, delimiter=',')
-    np.savetxt('tmp_index.csv', np.transpose(np.reshape(res[5],(4,3))) , delimiter=',')
+    # import matplotlib.pyplot as plt
+    #
+    # plt.plot(res[3][0, :], res[3][1, :], )
+    # plt.xlim(0, 600)
+    # plt.xlabel('Frequency Hz')
+    # plt.ylabel('Amplitude mm/s2')
+    # # plt.axvline(x=res[1][0,:][res[12][1]], color='#000000', linewidth=0.3)
+    # for item in res[13].flatten():
+    #     plt.axvline(x=res[3][0, :][item], color='#000000', linewidth=0.3)
+    # plt.show()
+    #
+    # np.savetxt('tmp_value.csv', res[13] * 0.05, delimiter=',')
+    # np.savetxt('tmp_index.csv', np.transpose(np.reshape(res[5], (4, 3))), delimiter=',')

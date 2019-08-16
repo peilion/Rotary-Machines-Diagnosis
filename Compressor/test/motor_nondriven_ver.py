@@ -4,7 +4,6 @@ import numpy as np
 from base import VibrationSignal
 from Compressor.measure_points import CP_Motor_NonDriven_Vertical
 
-
 def chlorinecompressor_motor_nondriven_end_vertical_diagnosis(xdata: ndarray, ydata: ndarray,
                                                               fs: int, R: ndarray, bearing_ratio: ndarray, th: ndarray):
     x = VibrationSignal(data=xdata, fs=fs, type=2)

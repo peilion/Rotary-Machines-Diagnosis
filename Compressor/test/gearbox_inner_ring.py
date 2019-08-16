@@ -4,7 +4,7 @@ from base import VibrationSignal
 from Compressor.measure_points import CP_Gearbox_Inner_Ring
 import numpy as np
 
-def chlorinecompressor_gearbox_inner_ring(xdata: ndarray, teeth_num: ndarray,
+def chlorinecompressor_gearbox_innerring(xdata: ndarray, teeth_num: ndarray,
                                           fs: int, R: ndarray, th: ndarray):
     x = VibrationSignal(data=xdata, fs=fs, type=2)
     mp_instance = CP_Gearbox_Inner_Ring(x=x, y=x, r=R[0], teeth_num=teeth_num,
@@ -22,7 +22,7 @@ def chlorinecompressor_gearbox_inner_ring(xdata: ndarray, teeth_num: ndarray,
 
 if __name__ == '__main__':
     data = np.loadtxt('Chlorine.csv', delimiter=',', usecols=(7))  # m/s2
-    res = chlorinecompressor_gearbox_inner_ring(xdata=data,
+    res = chlorinecompressor_gearbox_innerring(xdata=data,
                                                 fs=25600,
                                                 R=np.array([1491.0, 10384.0]),
                                                 teeth_num=np.array([167, 28, 69]),

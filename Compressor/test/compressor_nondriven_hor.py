@@ -6,9 +6,9 @@ from Compressor.measure_points import CP_Compressor_NonDriven_Horizontal
 from base import VibrationSignal
 
 
-def chlorinecompressor_compressor_nondriven_end_horizontal_diagnosis(xdata: ndarray, ydata: ndarray, pressure: ndarray,
-                                                                     fs: int, R: ndarray,
-                                                                     th: ndarray):
+def chlorinecompressor_compressor_nondriven_end_horizontal(xdata: ndarray, ydata: ndarray, pressure: ndarray,
+                                                           fs: int, R: ndarray,
+                                                           th: ndarray):
     x = VibrationSignal(data=xdata, fs=fs, type=2)
     y = VibrationSignal(data=ydata, fs=fs, type=2)
     mp_instance = CP_Compressor_NonDriven_Horizontal(x=x, y=y, r=R[1], pressure=pressure,
@@ -18,7 +18,7 @@ def chlorinecompressor_compressor_nondriven_end_horizontal_diagnosis(xdata: ndar
                                                      pres_threshold=th[9:12],
                                                      rb_threshold=th[12:15],
                                                      thd_threshold=th[15],
-                                                     pd_threshold=th[16]  / 180 * np.pi,
+                                                     pd_threshold=th[16] / 180 * np.pi,
                                                      harmonic_threshold=th[17:27],
                                                      subharmonic_threshold=th[27:32],
                                                      )
@@ -50,22 +50,22 @@ def chlorinecompressor_compressor_nondriven_end_horizontal_diagnosis(xdata: ndar
 if __name__ == '__main__':
     data = np.loadtxt('Chlorine.csv', delimiter=',', usecols=(12, 13))  # m/s2
 
-    res = chlorinecompressor_compressor_nondriven_end_horizontal_diagnosis(xdata=1000 * data[:, 1],  # mm/s2
-                                                                           ydata=1000 * data[:, 0],
-                                                                           fs=25600,
-                                                                           R=np.array([1491.0, 10384.0]),
-                                                                           pressure=np.ones(20),
-                                                                           th=np.array([
-                                                                               10, 20, 30,
-                                                                               10, 20, 30,
-                                                                               10, 20, 30,
-                                                                               10, 20, 30,
-                                                                               10, 20, 30,
-                                                                               1, 10,
-                                                                               10, 10, 10, 10, 10,
-                                                                               10, 10, 10, 10, 10,
-                                                                               10, 10, 10, 10, 10,
-                                                                           ]))
+    res = chlorinecompressor_compressor_nondriven_end_horizontal(xdata=1000 * data[:, 1],  # mm/s2
+                                                                 ydata=1000 * data[:, 0],
+                                                                 fs=25600,
+                                                                 R=np.array([1491.0, 10384.0]),
+                                                                 pressure=np.ones(20),
+                                                                 th=np.array([
+                                                                     10, 20, 30,
+                                                                     10, 20, 30,
+                                                                     10, 20, 30,
+                                                                     10, 20, 30,
+                                                                     10, 20, 30,
+                                                                     1, 10,
+                                                                     10, 10, 10, 10, 10,
+                                                                     10, 10, 10, 10, 10,
+                                                                     10, 10, 10, 10, 10,
+                                                                 ]))
 
     # import matplotlib.pyplot as plt
     #

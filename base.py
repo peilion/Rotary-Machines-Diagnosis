@@ -68,7 +68,7 @@ class VibrationSignal:
         return VibrationSignal(data=data, fs=self.sampling_rate, type=self.type)
 
     def to_envelope(self):
-        return VibrationSignal(data=np.abs(signal.hilbert(self.data)), fs=self.sampling_rate, type=self.type + 1)
+        return VibrationSignal(data=np.abs(signal.hilbert(self.data)), fs=self.sampling_rate, type=3)
 
     def visualize(self, *args):
         """
@@ -275,8 +275,8 @@ class MeasurePoint(metaclass=abc.ABCMeta):
     @property
     def phase_diff(self):
         if self._phase_diff is None:
-            trimed_x = self.x.data[:int(self.x.sampling_rate / 2)]  # 只取前一秒的加速度数据进行互相关计算,考虑计算量以及积分后的相位移动
-            trimed_y = self.y.data[:int(self.x.sampling_rate / 2)]
+            trimed_x = self.x.data[:int(self.x.sampling_rate / 4)]  # 只取前 0.25秒! 的 加速度! 数据进行互相关计算,考虑计算量以及积分后的相位移动
+            trimed_y = self.y.data[:int(self.x.sampling_rate / 4)]
             t = np.linspace(0.0, ((len(trimed_x) - 1) / self.x.sampling_rate), len(trimed_x))
             cross_correlate = np.correlate(trimed_x, trimed_y, "full")
             dt = np.linspace(-t[-1], t[-1], (2 * len(trimed_x)) - 1)
