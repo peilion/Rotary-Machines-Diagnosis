@@ -15,7 +15,7 @@ def prepolymerization_kettle_gearbox_outputshaft(xdata: ndarray, teeth_num: ndar
 
     x = VibrationSignal(data=xdata, fs=fs, type=2)
 
-    mp_instance = BD_Gearbox_Output(x=x, y=x, r=R, teeth_num=teeth_num, bearing_ratio=bearing_ratio,
+    mp_instance = BD_Gearbox_Output(x=x, y=x, r=R/teeth_num[2], teeth_num=teeth_num, bearing_ratio=bearing_ratio,
                                     gf_threshold=th[0:3],
                                     ma_threshold=th[3:6],
                                     bw_threshold=th[6:9],

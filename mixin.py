@@ -3,11 +3,17 @@ import numpy as np
 from numpy import ndarray
 
 
+class FaultPattenMixin:
+    check_list = []
+    fault_num_name = None
+
+
 # 类名必须包含"Mixin"关键字
-class UnbalanceMixin:
+class UnbalanceMixin(FaultPattenMixin):
     ib_threshold = None
     pd_threshold = None
     thd_threshold = None
+    check_list = ['ib_threshold', 'pd_threshold', 'thd_threshold']
     fault_num_name = 'ib_level'
 
     def unbalance_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
@@ -28,8 +34,9 @@ class UnbalanceMixin:
             self.ib_level = 0
 
 
-class MisalignmentMixin:
+class MisalignmentMixin(FaultPattenMixin):
     ma_threshold = None
+    check_list = ['ma_threshold']
     fault_num_name = 'ma_level'
 
     def misalignment_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
@@ -41,9 +48,11 @@ class MisalignmentMixin:
         self.ma_level = np.searchsorted(self.ma_threshold, self.ma_indicator)
 
 
-class ALooseMixin:
+class ALooseMixin(FaultPattenMixin):
     al_threshold = None
     pd_threshold = None
+    check_list = ['al_threshold', 'pd_threshold']
+
     fault_num_name = 'al_level'
 
     def atype_loose_diagnosis(self, diag_obj: VibrationSignal):
@@ -58,9 +67,11 @@ class ALooseMixin:
                 self.al_level = 0
 
 
-class BLooseMixin:
+class BLooseMixin(FaultPattenMixin):
     harmonic_threshold = None
     bl_threshold = None
+    check_list = ['harmonic_threshold', 'bl_threshold']
+
     fault_num_name = 'bl_level'
 
     def btype_loose_diagnosis(self, blade_num: int, diag_obj: VibrationSignal):
@@ -75,9 +86,11 @@ class BLooseMixin:
         self.harmonic_number = hn
 
 
-class RollBearingMixin:
+class RollBearingMixin(FaultPattenMixin):
     bw_threshold = None
     kurtosis_threshold = None
+    bearing_ratio = None
+    check_list = ['bw_threshold', 'kurtosis_threshold', 'bearing_ratio']
     fault_num_name = 'bw_level'
 
     def roll_bearing_diagnosis(self, diag_obj: VibrationSignal):
@@ -91,10 +104,12 @@ class RollBearingMixin:
         self.bw_level = np.array(level_list).max()
 
 
-class GearMixin:
+class GearMixin(FaultPattenMixin):
     gf_threshold = None
-    sideband_order = 6
     kurtosis_threshold = None
+    teeth_num = None
+    check_list = ['gf_threshold', 'kurtosis_threshold', 'teeth_num']
+    sideband_order = 6
     fault_num_name = 'gf_level'
 
     def gear_diagnosis(self, diag_obj: VibrationSignal):
@@ -106,8 +121,10 @@ class GearMixin:
             self.gf_level += 1
 
 
-class OilWhirlMixin:
+class OilWhirlMixin(FaultPattenMixin):
     wd_threshold = None  # type: ndarray
+    check_list = ['wd_threshold']
+
     fault_num_name = 'ow_level'
 
     def oil_whirl_diagnosis(self, diag_obj: VibrationSignal):
@@ -115,9 +132,11 @@ class OilWhirlMixin:
         self.ow_level = np.searchsorted(self.wd_threshold, self.ow_indicator)
 
 
-class RubbingMixin:
+class RubbingMixin(FaultPattenMixin):
     rb_threshold = None  # type:ndarray
     subharmonic_threshold = None  # type:ndarray
+    check_list = ['rb_threshold', 'subharmonic_threshold']
+
     fault_num_name = 'rb_level'
 
     def rubbing_diagnosis(self, diag_obj: VibrationSignal, blade_num: int):
@@ -139,9 +158,12 @@ class RubbingMixin:
         self.rb_level = np.searchsorted(self.rb_threshold, self.rb_indicator)
 
 
-class SurgeMixin:
-    sg_threshold = None  # type: ndarray
-    pres_threshold = None  # type: ndarray
+class SurgeMixin(FaultPattenMixin):
+    sg_threshold = None
+    pres_threshold = None
+    pressure = None
+    check_list = ['sg_threshold', 'pres_threshold','pressure']
+
     fault_num_name = 'sg_level'
 
     def surge_diagnosis(self, pressure_vector, diag_obj: VibrationSignal):
